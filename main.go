@@ -32,12 +32,8 @@ func main() {
 
 	dec.Decode(&t)
 
-	conv := TransactionNew{
-		Data: make([]TransactionData, 0),
-	}
+	newTransactions := make([]TransactionData, 0)
 
-	conv.TotalRecords, _ = strconv.Atoi(t.TotalRecords)
-	conv.ReturnedRecords, _ = strconv.Atoi(t.TotalDisplayRecords)
 	for _, item := range t.Data {
 		tdata := TransactionData{}
 		result := r0.FindStringSubmatch(item[0])
@@ -71,10 +67,10 @@ func main() {
 
 		tdata.Value, _ = strconv.ParseInt(result[2], 10, 64)
 
-		conv.Data = append(conv.Data, tdata)
+		newTransactions = append(newTransactions, tdata)
 	}
 
-	enc.Encode(conv)
+	enc.Encode(newTransactions)
 }
 
 type TransactionOriginal struct {
